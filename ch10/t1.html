@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Echo Test</title>
+  </head>
+  <body>
+    <h1>WebSocket Echo Test</h1>
+    <input type="text" id="messageInput" placeholder="Enter message" />
+    <button onclick="sendMessage()">Send</button>
+    <p id="response"></p>
+
+    <script>
+      // Open a WebSocket connection
+      var socket = new WebSocket("ws://localhost:5380/ws");
+
+      socket.onopen = function (event) {
+        console.log("WebSocket connection established");
+      };
+
+      socket.onmessage = function (event) {
+        // Display the echo response from the server
+        document.getElementById("response").innerText =
+          "Received: " + event.data;
+      };
+
+      socket.onerror = function (error) {
+        console.log("WebSocket Error: ", error);
+      };
+
+      function sendMessage() {
+        var message = document.getElementById("messageInput").value;
+        socket.send(message);
+      }
+    </script>
+  </body>
+</html>
